@@ -16,6 +16,9 @@
 	.table{
 		margin-top: 20px;
 	}
+	.btn{
+		margin-top: 10px;
+	}
 	</style>
 	<script type="text/javascript">
 		angular.module("listaTelefonica",[]);
@@ -25,7 +28,10 @@
 				{nome: "Henrique", telefone: "88888888"},
 				{nome: "Isadora", telefone: "99999999"},
 				{nome: "Thiago", telefone: "77777777"}
-			]
+			];
+			$scope.adicionarContato = function(contato){
+				$scope.contatos.push(angular.copy(contato));
+			};
 		});
 	</script>
 </head>
@@ -42,6 +48,9 @@
 				<td>{{contato.telefone}}</td>
 			</tr>
 		</table>
+		<input class="form-control" type="text" ng-model="contato.nome" placeholder="Nome">
+		<input class="form-control" type="text" ng-model="contato.telefone" placeholder="Telefone"> 
+		<button class="btn btn-primary btn-block" ng-click="adicionarContato(contato)">Adicionar</button>
 	</div>
 </body>
 </html>
