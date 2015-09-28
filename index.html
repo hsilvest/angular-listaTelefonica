@@ -61,6 +61,10 @@
 					return contato.selecionado;
 				});
 			};
+			$scope.ordenarPor = function(campo){
+				$scope.criterioDeOrdenacao = campo;
+				$scope.direcaoOrdenacao = !$scope.direcaoOrdenacao;
+			}
 		});
 	</script>
 </head>
@@ -71,12 +75,12 @@
 		<table class="table">
 			<tr>
 				<th></th>
-				<th>Nome</th>
-				<th>Telefone</th>
+				<th><a href="" ng-click="ordenarPor('nome')">Nome</a></th>
+				<th><a href="" ng-click="ordenarPor('telefone')">Telefone</a></th>
 				<th>Operadora</th>
 				<th>Data</th>
 			</tr>
-			<tr ng-class="{'selecionado negrito' :contato.selecionado}" ng-repeat="contato in contatos | filter:criterioDeBusca">
+			<tr ng-class="{'selecionado negrito' :contato.selecionado}" ng-repeat="contato in contatos | filter:criterioDeBusca | orderBy:criterioDeOrdenacao:direcaoOrdenacao">
 				<th><input type="checkbox" ng-model="contato.selecionado"/></th>
 				<td>{{contato.nome | uppercase}}</td>
 				<td>{{contato.telefone}}</td>
@@ -91,7 +95,7 @@
 			ng-minlength="10" placeholder="Nome" >
 			<input class="form-control" type="text" name="telefone" ng-model="contato.telefone" ng-required="true" 
 			ng-pattern="/^\d{4,5}-\d{4}$/" placeholder="Telefone"> 
-			<select class="form-control" ng-model="contato.operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras">
+			<select class="form-control" ng-model="contato.operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras | orderBy:'nome'">
 				<option value="">Selecione sua operadora</option>
 			</select>
 			<div ng-show="contatoForm.nome.$error.required && contatoForm.nome.$dirty" class="alert alert-danger">
