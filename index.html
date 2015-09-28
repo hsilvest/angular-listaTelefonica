@@ -33,23 +33,17 @@
 	</style>
 	<script type="text/javascript">
 		angular.module("listaTelefonica",[]);
-		angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope){
+		angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope, $http){
 			$scope.app = "Lista Telefonica";
-			$scope.contatos = [
-			{nome: "Henrique", data: new Date(), telefone: "88888888", cor: 'blue'},
-			{nome: "Isadora", data: new Date(), telefone: "99999999", cor: 'yellow'},
-			{nome: "Thiago", data: new Date(), telefone: "77777777", cor: 'red'}
-			];
-			$scope.operadoras = [
-			{nome: "Oi", codigo: 1, categoria:"Celular"},
-			{nome: "Tim", codigo: 2, categoria:"Celular"},
-			{nome: "Vivo", codigo: 3, categoria:"Celular"},
-			{nome: "GVT", codigo: 5, categoria:"Fixo"},
-			{nome: "Embratel", codigo: 4, categoria:"Fixo"}
-			];
+			$scope.contatos = [];
+			$scope.operadoras = [];
 			$scope.adicionarContato = function(contato){
-				$scope.contatos.push(angular.copy(contato));
-				$scope.contatoForm.setPristine();
+				//$scope.contatos.push(angular.copy(contato));
+				$http.post("http://localhost:3412/contatos", contato).success(function(data){
+					delete $scope.contato;
+					$scope.contatoForm.$setPristine();
+					carregarContatos();
+				});
 			};
 			$scope.apagarContatos = function(contatos){
 				$scope.contatos = contatos.filter(function(contato){
@@ -65,6 +59,18 @@
 				$scope.criterioDeOrdenacao = campo;
 				$scope.direcaoOrdenacao = !$scope.direcaoOrdenacao;
 			}
+			var carregarContatos = function(){
+				$http.get("http://localhost:3412/contatos").success(function(data){
+					$scope.contatos = data;
+				});
+			}
+			var carregarOperadoras = function(){
+				$http.get("http://localhost:3412/operadoras").success(function(data){
+					$scope.operadoras = data;
+				});
+			}
+			carregarContatos();
+			carregarOperadoras();
 		});
 	</script>
 </head>
