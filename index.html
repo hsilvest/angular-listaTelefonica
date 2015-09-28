@@ -5,74 +5,9 @@
 	<title>Lista Telefonica</title>
 	<script type="text/javascript" src="lib/angular/angular.js"></script>
 	<link rel="stylesheet" type="text/css" href="lib/bootstrap/bootstrap.css">
-	<style type="text/css">
-		.jumbotron{
-			width: 600px;
-			margin-right: auto;
-			margin-left: auto;
-			margin-top: 30px;
-		}
-		.jumbotron h3{
-			text-align: center;
-		}
-		.table{
-			margin-top: 20px;
-		}
-		.btn{
-			margin-top: 10px;
-		}
-		.selecionado{
-			background-color: yellow;
-		}
-		.negrito{
-			font-weight: bold;
-		}
-		.alert-danger{
-			margin-top: 10px;
-		}
-	</style>
-	<script type="text/javascript">
-		angular.module("listaTelefonica",[]);
-		angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope, $http){
-			$scope.app = "Lista Telefonica";
-			$scope.contatos = [];
-			$scope.operadoras = [];
-			$scope.adicionarContato = function(contato){
-				//$scope.contatos.push(angular.copy(contato));
-				$http.post("http://localhost:3412/contatos", contato).success(function(data){
-					delete $scope.contato;
-					$scope.contatoForm.$setPristine();
-					carregarContatos();
-				});
-			};
-			$scope.apagarContatos = function(contatos){
-				$scope.contatos = contatos.filter(function(contato){
-					if(!contato.selecionado) return contato;
-				});
-			};
-			$scope.isContatoSelecionado = function(contatos){
-				return contatos.some(function(contato){
-					return contato.selecionado;
-				});
-			};
-			$scope.ordenarPor = function(campo){
-				$scope.criterioDeOrdenacao = campo;
-				$scope.direcaoOrdenacao = !$scope.direcaoOrdenacao;
-			}
-			var carregarContatos = function(){
-				$http.get("http://localhost:3412/contatos").success(function(data){
-					$scope.contatos = data;
-				});
-			}
-			var carregarOperadoras = function(){
-				$http.get("http://localhost:3412/operadoras").success(function(data){
-					$scope.operadoras = data;
-				});
-			}
-			carregarContatos();
-			carregarOperadoras();
-		});
-	</script>
+	<link rel="stylesheet" type="text/css" href="css/app.css">
+	<script type="text/javascript" src="js/app.js"></script>
+	<script type="text/javascript" src="js/controllers/listaTelefonicaCtrl.js"></script>
 </head>
 <body ng-controller="listaTelefonicaCtrl">
 	<div class="jumbotron">
@@ -122,6 +57,6 @@
 		<button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)"
 		ng-hide="!isContatoSelecionado(contatos)">Apagar</button>
 	</div>
-	<div ng-include="'footer.html'"></div>
+	<div ng-include="'view/footer.html'"></div>
 </body>
 </html>
