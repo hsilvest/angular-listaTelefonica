@@ -7,7 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="lib/bootstrap/bootstrap.css">
 	<style type="text/css">
 		.jumbotron{
-			width: 400px;
+			width: 600px;
 			margin-right: auto;
 			margin-left: auto;
 			margin-top: 30px;
@@ -36,9 +36,9 @@
 		angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope){
 			$scope.app = "Lista Telefonica";
 			$scope.contatos = [
-			{nome: "Henrique", telefone: "88888888", cor: 'blue'},
-			{nome: "Isadora", telefone: "99999999", cor: 'yellow'},
-			{nome: "Thiago", telefone: "77777777", cor: 'red'}
+			{nome: "Henrique", data: new Date(), telefone: "88888888", cor: 'blue'},
+			{nome: "Isadora", data: new Date(), telefone: "99999999", cor: 'yellow'},
+			{nome: "Thiago", data: new Date(), telefone: "77777777", cor: 'red'}
 			];
 			$scope.operadoras = [
 			{nome: "Oi", codigo: 1, categoria:"Celular"},
@@ -67,18 +67,21 @@
 <body ng-controller="listaTelefonicaCtrl">
 	<div class="jumbotron">
 		<h3>{{app}}</h3>
+		<input type="text" class="form-control" ng-model="criterioDeBusca" placeholder="O que você está buscando?"/>
 		<table class="table">
 			<tr>
 				<th></th>
 				<th>Nome</th>
 				<th>Telefone</th>
 				<th>Operadora</th>
+				<th>Data</th>
 			</tr>
-			<tr ng-class="{'selecionado negrito' :contato.selecionado}" ng-repeat="contato in contatos">
+			<tr ng-class="{'selecionado negrito' :contato.selecionado}" ng-repeat="contato in contatos | filter:criterioDeBusca">
 				<th><input type="checkbox" ng-model="contato.selecionado"/></th>
-				<td>{{contato.nome}}</td>
+				<td>{{contato.nome | uppercase}}</td>
 				<td>{{contato.telefone}}</td>
-				<td>{{contato.operadora.nome}}</td>
+				<td>{{contato.operadora.nome | lowercase}}</td>
+				<td>{{contato.data | date: 'dd/MM/yyyy HH:mm'}}</td>
 				<td><div style="width: 20px; height: 20px;" ng-style="{'background-color': contato.cor}"></div></td>
 			</tr>
 		</table>
