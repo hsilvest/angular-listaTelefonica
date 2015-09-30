@@ -28,6 +28,8 @@ angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($sc
 			var carregarContatos = function(){
 				contatosAPI.getContatos().success(function(data){
 					$scope.contatos = data;
+				}).error(function(data, status){
+					$scope.error = "Não foi possivel carregar os dados!"
 				});
 			}
 			var carregarOperadoras = function(){
