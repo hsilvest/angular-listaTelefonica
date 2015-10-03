@@ -2,6 +2,9 @@ angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($sc
 			$scope.app = "Lista Telefonica";
 			$scope.contatos = [];
 			$scope.operadoras = [];
+			$scope.contato = {
+				data: 1034218800000
+			};
 			$scope.adicionarContato = function(contato){
 				contato.serial = serialGenerator.generate();
 				contato.data = new Date();

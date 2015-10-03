@@ -16,6 +16,7 @@
 	<script type="text/javascript" src="js/services/serialGeneratorService.js"></script>
 	<script type="text/javascript" src="js/controllers/listaTelefonicaCtrl.js"></script>
 	<script type="text/javascript" src="js/directives/uiAlertDirective.js"></script>
+	<script type="text/javascript" src="js/directives/uiDateDirective.js"></script>
 	<script type="text/javascript" src="js/filters/nameFilter.js"></script>
 	<script type="text/javascript" src="js/filters/ellipsisFilter.js"></script>
 
@@ -23,7 +24,7 @@
 <body ng-controller="listaTelefonicaCtrl">
 	<div class="jumbotron">
 		<h3>{{app}}</h3>
-		<ui-alert ng-show="error"></ui-alert>
+		<ui-alert ng-show="error" title="Ops, aconteceu um problema" message="error"></ui-alert>
 		<input type="text" class="form-control" ng-model="criterioDeBusca" placeholder="O que você está buscando?"/>
 		<table class="table">
 			<tr>
@@ -49,9 +50,11 @@
 			ng-minlength="10" placeholder="Nome" >
 			<input class="form-control" type="text" name="telefone" ng-model="contato.telefone" ng-required="true" 
 			ng-pattern="/^\d{4,5}-\d{4}$/" placeholder="Telefone"> 
+			{{contato.data}}
 			<select class="form-control" ng-model="contato.operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras | orderBy:'nome'">
 				<option value="">Selecione sua operadora</option>
 			</select>
+			<input class="form-control" type="text" name="data" ng-model="contato.data" ui-Date placeholder="Data">
 			<div ng-show="contatoForm.nome.$error.required && contatoForm.nome.$dirty" class="alert alert-danger">
 				Por favor, preencha o campo nome!
 			</div>
